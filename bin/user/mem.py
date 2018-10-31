@@ -77,6 +77,7 @@ import resource
 import weewx
 import weeutil.weeutil
 from weewx.engine import StdService
+from weewx.cheetahgenerator import SearchList
 
 VERSION = "0.1"
 
@@ -204,6 +205,18 @@ class MemoryMonitor(StdService):
 
         return record
 
+class MemVariables(SearchList):
+    """Bind memory varialbes to database records"""
+
+    def __init__(self, generator):
+        SearchList.__init__(self, generator)
+
+    def version(self):
+        return VERSION
+
+    def get_extension_list(self, timespan, db_lookup):
+        """Returns a list of name/value pairs"""
+        return [{'mem': self}]
 
 # what follows is a basic unit test of this module.  to run the test:
 #
